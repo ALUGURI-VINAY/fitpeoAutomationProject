@@ -1,0 +1,51 @@
+package com.gqt.automate;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class FitPeoAutomation2 {
+	public static void main(String[] args) {
+	
+        // Set up WebDriver
+        System.setProperty("webdriver.chrome.driver","C://Users/vinay/OneDrive/Desktop/GQT SELENIUM COMPONENTS/chromedriver-win64 (1)/chromedriver-win64");
+        WebDriver driver = new ChromeDriver();
+
+        // Navigate to FitPeo homepage
+        driver.get("https://www.fitpeo.com/");
+
+        // Navigate to Revenue Calculator page (adjust the locator as needed)
+        driver.findElement(By.linkText("Revenue Calculator")).click();
+
+        // Adjust slider to 820
+        WebElement slider = driver.findElement(By.id("slider-id")); // Replace with actual ID
+        Actions actions = new Actions(driver);
+        actions.dragAndDropBy(slider, 820, 0).perform();
+
+        // Update text field to 560
+        WebElement textField = driver.findElement(By.id("text-field-id")); // Replace with actual ID
+        textField.clear();
+        textField.sendKeys("560");
+
+        // Select CPT codes (adjust locators as needed)
+        driver.findElement(By.id("cpt-99091")).click();
+        driver.findElement(By.id("cpt-99453")).click();
+        driver.findElement(By.id("cpt-99454")).click();
+        driver.findElement(By.id("cpt-99474")).click();
+
+        // Verify total recurring reimbursement (adjust locator as needed)
+        WebElement totalReimbursement = driver.findElement(By.id("total-reimbursement-id"));
+        String actualTotal = totalReimbursement.getText();
+        String expectedTotal = "$110700";
+        if (actualTotal.equals(expectedTotal)) {
+            System.out.println("Total recurring reimbursement is correct.");
+        } else {
+            System.out.println("Total recurring reimbursement is incorrect.");
+        }
+
+        // Close the browser
+        driver.quit();
+    }
+}
